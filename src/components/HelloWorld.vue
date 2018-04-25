@@ -5,28 +5,44 @@
   </v-toolbar>
 
   <main>
+
   <v-content>
     <v-container fluid>
-      <router-view></router-view>
+      <v-layout align-center justify-center>
+        <v-flex
+          xs12
+          md6
+          lg6>
+      <v-form ref="form">
+        <v-text-field
+          label="Search the news"
+          v-model="search"
+          value='search'
+          >
+        </v-text-field>
+        <v-btn @click='MOCKfetchNews'>Search</v-btn>
+  <!-- TODO: CHANGE FROM MOCK CALL!! -->
+        <!-- <v-btn @click="fetchNews('search')">Search</v-btn> -->
+        
+      </v-form>
 
-  <input name='message' v-model="message" value='message' placeholder="edit me">
-  <p>Message is: {{ message }}</p>
+  <p>Results for {{ search }}</p>
     <v-tooltip top>
       <span slot='activator'>{{overallScore}}</span>
       <span>Overall score</span>
     </v-tooltip>
     <h1>{{overallSentiment}}</h1>
-    
-  <!-- TODO: CHANGE FROM MOCK CALL!! -->
-  <!-- <button v-on:click="fetchNews(message)">Fetch</button> -->
-  <button v-on:click="MOCKfetchNews()">Fetch</button>
+        </v-flex>
+      </v-layout>
+    </v-container>
 
-<v-container fluid grid-list-md>
+<v-container fluid grid-list-lg>
   <!-- TODO: CHANGE FROM MOCKDATA!! -->
   <v-layout row wrap>
     <v-flex
     xs12
-    md6
+    sm6
+    md4
     lg3
     v-for="(art, index) in mockData"
     :key='index'
@@ -44,7 +60,7 @@
   </v-layout>
 </v-container>
 
-    </v-container>
+
   </v-content>
   </main>
 </v-app>
@@ -52,13 +68,14 @@
 
 <script>
 import mockData from '../assets/MOCK_DATA.json';
+import mockDataScore from '../assets/MOCK_DATA_SCORE.json';
 import axios from 'axios';
 
 export default {
   name: 'HelloWorld',
   data() {
     return {
-      message: '',
+      search: '',
       isArticles: false,
       articles: [],
       overallScore: 0,
@@ -71,7 +88,7 @@ export default {
   computed: {},
   methods: {
     MOCKfetchNews() {
-      this.overallScore = 61;
+      this.overallScore = 62;
       this.overallSentiment = this.overallScore / 30;
       console.log(this.overallScore);
     },
