@@ -6,93 +6,70 @@
 
   <main>
   <v-content>
-    <v-container fluid>
+    <v-container fluid mt-5>
       <v-layout align-center justify-center>
         <v-flex
           xs12
           md6
           lg6>
       <v-form ref="form">
-    <h1 v-if="loading">loading...</h1>
         <v-text-field
           label="Search the news"
           v-model="search"
           value='search'
           >
         </v-text-field>
-        <v-btn @click="fetchNews">Search</v-btn>
-  <!-- TODO: CHANGE FROM MOCK CALL!! -->
-        <!-- <v-btn @click="fetchNews('search')">Search</v-btn> -->
-        
+        <!-- TODO: CHANGE FROM MOCK CALL!! -->
+        <v-btn @click="MOCKfetchNews">Search</v-btn>        
       </v-form>
 
   <p>Results for {{ search }}</p>
-    <v-tooltip top>
-      <span slot='activator'>{{overallScore}}</span>
-      <span>Overall score</span>
-    </v-tooltip>
-    <h1>{{overallSentiment}}</h1>
-        </v-flex>
-      </v-layout>
-    </v-container>
-
-    <!-- TODO: CHANGE FROM MOCKDATA!! -->
-  <!-- <v-container fluid grid-list-lg>
-    <v-layout row wrap>
-      <v-flex
-      xs12
-      sm6
-      md4
-      lg3
-      v-for="(art, index) in mockData"
-      :key='index'
-      >
-      <v-card :href="art.url" target='_blank' hover>
-        <v-card-title primary-title>{{ art.title }}</v-card-title>
-        <v-card-media
-          :src="art.urlToImage || 'http://via.placeholder.com/200x200/f3h8e4/f3h8e4'"
-          height="200px"
-        >
-        </v-card-media>
-        <v-card-text>{{ art.description }}</v-card-text>
-      </v-card>
+  <v-tooltip top>
+    <span slot='activator'>{{overallScore}}</span>
+    <span>Overall score</span>
+  </v-tooltip>
+  <h1>{{overallSentiment}}</h1>
       </v-flex>
     </v-layout>
-  </v-container> -->
+  </v-container>
 
-
-  </v-content>
-  </main>
-</v-app>
+  <Sentiment v-if="showResults" v-bind:overallSentiment=".34000" />
+  <NewsCards v-if="showResults" v-bind:articles="this.articles"/>
+    </v-content>
+    </main>
+  </v-app>
 </template>
 
 <script>
+import NewsCards from './NewsCards';
+import Sentiment from './Sentiment';
 import mockData from '../assets/MOCK_DATA.json';
-import mockDataScore from '../assets/MOCK_DATA_SCORE.json';
 import axios from 'axios';
-import { setTimeout } from 'timers';
 
 export default {
   name: 'HelloWorld',
+  components: {
+    NewsCards,
+    Sentiment
+  },
   data() {
     return {
       search: '',
-      isArticles: false,
-      articles: [],
-      overallScore: 0,
-      overallSentiment: 0,
+      showResults: true,
       mostNegative: '',
       mostPositive: '',
-      mockData: [...mockData],
-      loading: false
+      loading: false,
+      overallScore: 0,
+      overallSentiment: 0,
+      articles: [...mockData]
     };
   },
-  computed: {},
   methods: {
     MOCKfetchNews() {
       this.overallScore = 62;
       this.overallSentiment = this.overallScore / 30;
       console.log(this.overallScore);
+      helpers.sayHi();
     },
 
     getNews: input => {
@@ -152,21 +129,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
+<style >
+
 </style>
