@@ -10,7 +10,7 @@
       :key='index'
       >
       <v-card :href="art.url" target='_blank' hover>
-        <v-card-title primary-title>{{ art.title }}, {{articlesNum}}</v-card-title>
+        <v-card-title primary-title>{{ art.title }}</v-card-title>
         <v-card-media
           :src="art.urlToImage || 'http://via.placeholder.com/200x200/f3h8e4/f3h8e4'"
           height="200px"

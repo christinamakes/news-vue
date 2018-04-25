@@ -1,16 +1,16 @@
 <template>
   <v-app>
-    <HelloWorld />
+    <Dashboard />
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import Dashboard from './components/Dashboard';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Dashboard
   }
 };
 </script>
