@@ -17,16 +17,18 @@
     </v-tooltip>
     <h1>{{overallSentiment}}</h1>
     
-
-  <button v-on:click="fetchNews(message)">Fetch</button>
+  <!-- TODO: CHANGE FROM MOCK CALL!! -->
+  <!-- <button v-on:click="fetchNews(message)">Fetch</button> -->
+  <button v-on:click="MOCKfetchNews()">Fetch</button>
 
 <v-container fluid grid-list-md>
+  <!-- TODO: CHANGE FROM MOCKDATA!! -->
   <v-layout row wrap>
     <v-flex
     xs12
     md6
     lg3
-    v-for="(art, index) in articles"
+    v-for="(art, index) in mockData"
     :key='index'
     >
     <v-card :href="art.url" target='_blank' hover>
@@ -49,6 +51,7 @@
 </template>
 
 <script>
+import mockData from '../assets/MOCK_DATA.json';
 import axios from 'axios';
 
 export default {
@@ -59,11 +62,20 @@ export default {
       isArticles: false,
       articles: [],
       overallScore: 0,
-      overallSentiment: 0
+      overallSentiment: 0,
+      mostNegative: '',
+      mostPositive: '',
+      mockData: [...mockData]
     };
   },
   computed: {},
   methods: {
+    MOCKfetchNews() {
+      this.overallScore = 61;
+      this.overallSentiment = this.overallScore / 30;
+      console.log(this.overallScore);
+    },
+
     getNews: input => {
       return axios.get(
         'https://newsapi.org/v2/everything?apiKey=cffd5c18704145eb89a7156717753b11',
@@ -77,7 +89,7 @@ export default {
             sources:
               'bbc-news, abc-news, business-insider, cbs-news, cnbc, cnn, engadget, financial-times, fox-news, nbc-news, the-huffington-post, the-new-york-times, the-wall-street-journal, the-washington-post, usa-today, wired, time, the-economist, the-american-conservative',
             // REMOVE PAGE
-            pageSize: 13
+            pageSize: 5
             // country: 'us',
           }
         }
@@ -110,7 +122,7 @@ export default {
               console.log(res.data.sentiment.score);
             })
             .then(() => {
-              this.overallSentiment = this.overallScore / 13;
+              this.overallSentiment = this.overallScore / 5;
             });
         });
       });
