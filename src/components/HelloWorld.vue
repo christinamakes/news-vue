@@ -11,6 +11,12 @@
 
   <input name='message' v-model="message" value='message' placeholder="edit me">
   <p>Message is: {{ message }}</p>
+    <v-tooltip top>
+      <span slot='activator'>{{overallScore}}</span>
+      <span>Overall score</span>
+    </v-tooltip>
+    <h1>{{overallSentiment}}</h1>
+    
 
   <button v-on:click="fetchNews(message)">Fetch</button>
 
@@ -23,7 +29,6 @@
     v-for="(art, index) in articles"
     :key='index'
     >
-
     <v-card :href="art.url" target='_blank' hover>
       <v-card-title primary-title>{{ art.title }}</v-card-title>
       <v-card-media
@@ -52,7 +57,9 @@ export default {
     return {
       message: '',
       isArticles: false,
-      articles: []
+      articles: [],
+      overallScore: 0,
+      overallSentiment: 0
     };
   },
   computed: {},
@@ -96,10 +103,15 @@ export default {
         let urls = [...res.data.articles.map(article => article.url)];
 
         urls.map(url => {
-          this.getEmotion(url).then(res => {
-            console.log(res.data.url);
-            console.log(res.data.sentiment);
-          });
+          this.getEmotion(url)
+            .then(res => {
+              this.overallScore += res.data.sentiment.score;
+              console.log(res.data.url);
+              console.log(res.data.sentiment.score);
+            })
+            .then(() => {
+              this.overallSentiment = this.overallScore / 13;
+            });
         });
       });
     }
