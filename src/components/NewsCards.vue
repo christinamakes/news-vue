@@ -1,6 +1,4 @@
 <template>
-  <!-- TODO: CHANGE FROM MOCKDATA!! -->
-  <v-app>
   <v-container fluid grid-list-lg>
     <v-layout row wrap>
       <v-flex
@@ -23,22 +21,13 @@
       </v-flex>
     </v-layout>
   </v-container>
-  </v-app>
 </template>
 
 <script>
 export default {
   name: 'NewsCards',
   props: {
-    articles: []
-  },
-  data() {
-    return {};
-  },
-  methods: {}
+    articles: Array
+  }
 };
 </script>
-
-<style>
-
-</style>
