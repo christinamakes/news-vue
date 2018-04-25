@@ -5,7 +5,6 @@
   </v-toolbar>
 
   <main>
-
   <v-content>
     <v-container fluid>
       <v-layout align-center justify-center>
@@ -14,13 +13,14 @@
           md6
           lg6>
       <v-form ref="form">
+    <h1 v-if="loading">loading...</h1>
         <v-text-field
           label="Search the news"
           v-model="search"
           value='search'
           >
         </v-text-field>
-        <v-btn @click='MOCKfetchNews'>Search</v-btn>
+        <v-btn @click="fetchNews">Search</v-btn>
   <!-- TODO: CHANGE FROM MOCK CALL!! -->
         <!-- <v-btn @click="fetchNews('search')">Search</v-btn> -->
         
@@ -36,29 +36,29 @@
       </v-layout>
     </v-container>
 
-<v-container fluid grid-list-lg>
-  <!-- TODO: CHANGE FROM MOCKDATA!! -->
-  <v-layout row wrap>
-    <v-flex
-    xs12
-    sm6
-    md4
-    lg3
-    v-for="(art, index) in mockData"
-    :key='index'
-    >
-    <v-card :href="art.url" target='_blank' hover>
-      <v-card-title primary-title>{{ art.title }}</v-card-title>
-      <v-card-media
-        :src="art.urlToImage || 'http://via.placeholder.com/200x200/f3h8e4/f3h8e4'"
-        height="200px"
+    <!-- TODO: CHANGE FROM MOCKDATA!! -->
+  <!-- <v-container fluid grid-list-lg>
+    <v-layout row wrap>
+      <v-flex
+      xs12
+      sm6
+      md4
+      lg3
+      v-for="(art, index) in mockData"
+      :key='index'
       >
-      </v-card-media>
-      <v-card-text>{{ art.description }}</v-card-text>
-    </v-card>
-    </v-flex>
-  </v-layout>
-</v-container>
+      <v-card :href="art.url" target='_blank' hover>
+        <v-card-title primary-title>{{ art.title }}</v-card-title>
+        <v-card-media
+          :src="art.urlToImage || 'http://via.placeholder.com/200x200/f3h8e4/f3h8e4'"
+          height="200px"
+        >
+        </v-card-media>
+        <v-card-text>{{ art.description }}</v-card-text>
+      </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container> -->
 
 
   </v-content>
@@ -70,6 +70,7 @@
 import mockData from '../assets/MOCK_DATA.json';
 import mockDataScore from '../assets/MOCK_DATA_SCORE.json';
 import axios from 'axios';
+import { setTimeout } from 'timers';
 
 export default {
   name: 'HelloWorld',
@@ -82,7 +83,8 @@ export default {
       overallSentiment: 0,
       mostNegative: '',
       mostPositive: '',
-      mockData: [...mockData]
+      mockData: [...mockData],
+      loading: false
     };
   },
   computed: {},
@@ -124,24 +126,26 @@ export default {
       });
     },
     fetchNews(input) {
+      this.loading = true;
       this.getNews(input).then(res => {
+        this.loading = false;
         res.data.articles.map(article => this.articles.push(article));
         this.isArticles = true;
         console.log(this.isArticles);
         console.log(this.articles);
         let urls = [...res.data.articles.map(article => article.url)];
 
-        urls.map(url => {
-          this.getEmotion(url)
-            .then(res => {
-              this.overallScore += res.data.sentiment.score;
-              console.log(res.data.url);
-              console.log(res.data.sentiment.score);
-            })
-            .then(() => {
-              this.overallSentiment = this.overallScore / 5;
-            });
-        });
+        // urls.map(url => {
+        //   this.getEmotion(url)
+        //     .then(res => {
+        //       this.overallScore += res.data.sentiment.score;
+        //       console.log(res.data.url);
+        //       console.log(res.data.sentiment.score);
+        //     })
+        //     .then(() => {
+        //       this.overallSentiment = this.overallScore / 5;
+        //     });
+        // });
       });
     }
   }
