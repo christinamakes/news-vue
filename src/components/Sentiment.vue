@@ -1,19 +1,22 @@
 <template>
     <v-container fluid grid-list-lg>
-    <v-layout row wrap>
-      <v-flex
-      xs12
-      sm6
-      md4
-      lg3
-      >
-      <v-card>
-        <v-card-title>{{overallSentiment}}, {{overallScore}} This is the title card</v-card-title>
-        <v-card-media src="https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" height="200px"></v-card-media>
-      </v-card>
-
- 
-
+    <v-layout row wrap justify-center>
+        <v-flex xs12 s12 md4 lg4>
+          <v-card dark color="red">
+            <v-card-title>Overall sentiment score</v-card-title>
+            <v-card-text>{{ overallScore }}</v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex xs12 s12 md4 lg4>
+          <v-card dark color="secondary">
+            <v-card-text>{{ overallSentiment }}</v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex xs12 s12 md4 lg4>
+          <v-card height="250px" dark :color="moodColor">
+            <v-card-title>Overall mood for {{ search }} in the news:</v-card-title>
+            <v-card-media :src="mood" height="170px" contain></v-card-media>
+          </v-card>
         </v-flex>
       </v-layout>
     </v-container>  
@@ -24,7 +27,10 @@ export default {
   name: 'Sentiment',
   props: {
     overallSentiment: Number,
-    overallScore: Number
+    overallScore: Number,
+    mood: String,
+    moodColor: String,
+    search: String
   }
 };
 </script>

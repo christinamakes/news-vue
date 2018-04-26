@@ -20,7 +20,7 @@
             >
           </v-text-field>
           <!-- TODO: CHANGE FROM MOCK CALL!! -->
-          <v-btn @click="fetchNews">Search</v-btn>  
+          <v-btn type='submit' @click="fetchNews">Search</v-btn>  
           <!-- <v-btn @click="showResults = false">Hide</v-btn>               -->
         </v-form>
         </v-flex>
@@ -40,7 +40,7 @@
     </v-container>
 
 
-    <Sentiment v-model="showResults" :overallSentiment="overallSentiment" :overallScore="overallScore" />
+    <Sentiment v-model="showResults" :overallSentiment="overallSentiment" :overallScore="overallScore" :mood="mood" :search="search" :moodColor="moodColor"/>
     <NewsCards v-model="showResults" v-bind:articles="this.articles"/>
 
     </v-content>
@@ -67,14 +67,16 @@ export default {
       mostNegative: '',
       mostPositive: '',
       loading: false,
-      overallScore: 2,
-      overallSentiment: 21,
-      articles: []
+      overallScore: 1,
+      overallSentiment: 0.23,
+      articles: [],
+      mood: '',
+      moodColor: ''
     };
   },
   methods: {
     MOCKfetchNews() {
-      this.overallScore = 62;
+      this.overallScore = 23;
       this.overallSentiment = this.overallScore / 30;
     },
 
@@ -129,6 +131,20 @@ export default {
       });
       this.loading = false;
       this.showResults = true;
+
+      if (this.overallSentiment === 0) {
+        this.mood =
+          'https://cdn.shopify.com/s/files/1/1061/1924/products/Neutral_Face_Emoji_large.png?v=1480481054';
+        this.moodColor = 'yellow darken-3';
+      } else if (this.overallSentiment >= 0) {
+        this.mood =
+          'https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Emoji_with_Eyes_Opened_large.png?v=1480481056';
+        this.moodColor = 'green';
+      } else if (this.mood <= 0) {
+        this.mood =
+          'https://cdn.shopify.com/s/files/1/1061/1924/products/Very_sad_emoji_icon_png_large.png?v=1480481019';
+        this.moodColor = 'red';
+      }
     }
   }
 };
