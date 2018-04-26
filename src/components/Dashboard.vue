@@ -40,7 +40,7 @@
     </v-container>
 
 
-    <Sentiment v-model="showResults" :overallSentiment="overallSentiment" :overallScore="overallScore" :mood="mood" :search="search" :moodColor="moodColor" :mostPositive="mostPositive" :mostNegative="mostNegative"/>
+    <Sentiment v-model="showResults" :overallSentiment="overallSentiment" :overallScore="overallScore" :mood="mood" :search="search" :moodColor="moodColor" :mostPositive="mostPositive" :mostNegative="mostNegative" :articleNumber="articleNumber"/>
     <NewsCards v-model="showResults" v-bind:articles="this.articles"/>
 
     </v-content>
@@ -70,15 +70,18 @@ export default {
       overallSentiment: 0,
       articles: [],
       mood: '',
-      moodColor: ''
+      moodColor: '',
     };
   },
   computed: {
     mostNegative: function() {
-      return Math.min(...this.sentimentArr);
+      return Math.min(...this.sentimentArr).toFixed(2);
     },
     mostPositive: function() {
-      return Math.max(...this.sentimentArr);
+      return Math.max(...this.sentimentArr).toFixed(2);
+    },
+    articleNumber: function() {
+      return this.sentimentArr.length
     }
   },
   methods: {
@@ -126,7 +129,6 @@ export default {
             .then(res => {
               tempSent.push(res.data.sentiment.score);
               tempOverScore += res.data.sentiment.score
-              console.log(tempSent);
 
               this.sentimentArr = tempSent
               this.overallScore = tempOverScore ;

@@ -1,26 +1,44 @@
 <template>
     <v-container fluid grid-list-lg>
     <v-layout row wrap justify-center>
-        <v-flex xs12 s12 md4 lg4>
-          <v-card dark color="red">
-            <v-card-title>Overall score</v-card-title>
-            <v-card-text>{{ overallScore }}</v-card-text>
+        <v-flex xs12 s12 md2 lg2>
+          <v-card height="250px" dark color="purple">
+            <v-card-title class="justify-center"><span class="headline">Overall sentiment</span></v-card-title>
+            <v-card-text class="text-xs-center"><span class="green-txt">{{ overallSentiment }}</span></v-card-text>
           </v-card>
         </v-flex>
-        <v-flex xs12 s12 md4 lg4>
-          <v-card>
-            <v-card-text>The sentiment score of the most positive article was: <span class='green-txt'>{{ mostPositive }}</span></v-card-text>
-            <v-card-text>The sentiment score of the most negative article was: <span class='red-txt'>{{ mostNegative }}</span></v-card-text>
-          </v-card>
-        </v-flex>
-        <v-flex xs12 s12 md4 lg4>
-          <v-card height="250px" dark :color="moodColor">
-            <v-card-title>Overall mood for {{ search }} in the news:</v-card-title>
+
+        <v-flex xs12 s12 md3 lg3>
+          <v-card dark height="250px" :color="moodColor">
+            <v-card-title><span class="headline">Overall mood for {{ search }}:</span></v-card-title>
             <v-card-media :src="mood" height="170px" contain></v-card-media>
           </v-card>
         </v-flex>
+
+        <v-flex xs12 s12 md2 lg2>
+          <v-card dark height="250px" color="teal">
+            <v-card-title class="justify-center"><span class="headline">Most Positive</span></v-card-title>
+            <v-card-text class="text-xs-center"><span class="green-txt">{{ mostPositive }}</span></span></v-card-text>
+          </v-card>
+        </v-flex>
+        
+      
+        <v-flex xs12 s12 md2 lg2>
+          <v-card dark height="250px" color="pink darken-1">
+            <v-card-title class="justify-center"><span class="headline">Most Negative</span></v-card-title>
+            <v-card-text class="text-xs-center"><span class='red-txt'>{{ mostNegative }}</span></v-card-text>
+          </v-card>
+        </v-flex>
+
+        <v-flex xs12 s12 md3 lg3>
+          <v-card dark height="250px" color="orange darken-1">
+            <v-card-title class="justify-center"><span class="headline">Artilces analyzed</span></v-card-title>
+            <v-card-text class="text-xs-center"><span class='red-txt'>{{ articleNumber }}</span></v-card-text>
+          </v-card>
+        </v-flex>
+
       </v-layout>
-    </v-container>  
+    </v-container>
 </template>
 
 <script>
@@ -33,7 +51,8 @@ export default {
     moodColor: String,
     search: String,
     mostPositive: Number,
-    mostNegative: Number
+    mostNegative: Number,
+    articleNumber: Number
   }
 };
 </script>
@@ -41,11 +60,13 @@ export default {
 <style scoped>
 .green-txt {
   font-weight: bold;
-  color: #4caf50;
+  /* color: #4caf50; */
+  font-size: 3em;
 }
 
 .red-txt {
   font-weight: bold;
-  color: #f44336;
+  /* color: #f44336; */
+  font-size: 3em;
 }
 </style>
