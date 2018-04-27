@@ -19,9 +19,7 @@
             value='search'
             >
           </v-text-field>
-          <!-- TODO: CHANGE FROM MOCK CALL!! -->
           <v-btn type='submit' @click="fetchNews">Search</v-btn>  
-          <!-- <v-btn @click="showResults = false">Hide</v-btn>               -->
         </v-form>
         </v-flex>
       </v-layout>
@@ -40,8 +38,8 @@
     </v-container>
 
 
-    <Sentiment v-model="showResults" :overallSentiment="overallSentiment" :overallScore="overallScore" :mood="mood" :search="search" :moodColor="moodColor" :mostPositive="mostPositive" :mostNegative="mostNegative" :articleNumber="articleNumber"/>
-    <NewsCards v-model="showResults" v-bind:articles="this.articles"/>
+    <Sentiment v-if="showResults" :overallSentiment="overallSentiment" :overallScore="overallScore" :mood="mood" :search="search" :moodColor="moodColor" :mostPositive="mostPositive" :mostNegative="mostNegative" :articleNumber="articleNumber"/>
+    <NewsCards v-if="showResults" v-bind:articles="this.articles"/>
 
     </v-content>
     </main>
@@ -98,7 +96,7 @@ export default {
             sources:
               'bbc-news, abc-news, business-insider, cbs-news, cnbc, cnn, engadget, financial-times, fox-news, nbc-news, the-huffington-post, the-new-york-times, the-wall-street-journal, the-washington-post, usa-today, wired, time, the-economist, the-american-conservative',
             // REMOVE PAGE
-            pageSize: 3
+            pageSize: 13
             // country: 'us',
           }
         }
@@ -119,6 +117,7 @@ export default {
     fetchNews() {
       let tempSent = []
       let tempOverScore = 0;
+      this.loading = true;
       this.getNews().then(res => {
         this.articles = res.data.articles;
 
@@ -136,7 +135,7 @@ export default {
             })
             .then(() => {
               // FIXME: CHANGE BASED ON PAGE SIZE
-              this.overallSentiment = this.overallScore / 3;
+              this.overallSentiment = this.overallScore / 13;
             }).then(() => {
               if (this.overallSentiment === 0) {
                 this.mood =
@@ -151,11 +150,13 @@ export default {
                   'https://cdn.shopify.com/s/files/1/1061/1924/products/Very_sad_emoji_icon_png_large.png?v=1480481019';
                 this.moodColor = 'red';
               }
-            });
+            }).then(() => {
+              this.loading = false;
+              this.showResults = true;
+
+            })
         });
       });
-      this.loading = false;
-      this.showResults = true;
     }
   }
 };

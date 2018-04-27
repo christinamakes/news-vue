@@ -4,7 +4,7 @@
         <v-flex xs12 s12 md2 lg2>
           <v-card height="250px" dark color="purple">
             <v-card-title class="justify-center"><span class="headline">Overall sentiment</span></v-card-title>
-            <v-card-text class="text-xs-center"><span class="green-txt">{{ overallSentiment }}</span></v-card-text>
+            <v-card-text class="text-xs-center"><span class="green-txt">{{ overallSentiment.toFixed(2) }}</span></v-card-text>
           </v-card>
         </v-flex>
 
@@ -60,13 +60,11 @@ export default {
 <style scoped>
 .green-txt {
   font-weight: bold;
-  /* color: #4caf50; */
   font-size: 3em;
 }
 
 .red-txt {
   font-weight: bold;
-  /* color: #f44336; */
   font-size: 3em;
 }
 </style>
