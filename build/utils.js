@@ -30,7 +30,7 @@ exports.cssLoaders = function (options) {
   }
 
   // generate loader string to be used with extract text plugin
-  function generateLoaders (loader, loaderOptions) {
+  function generateLoaders(loader, loaderOptions) {
     const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
 
     if (loader) {
@@ -95,7 +95,7 @@ exports.createNotifierCallback = () => {
       title: packageConfig.name,
       message: severity + ': ' + error.name,
       subtitle: filename || '',
-      icon: path.join(__dirname, 'logo.png')
+      icon: path.join(__dirname, 'newspaper.ico')
     })
   }
 }
